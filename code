@@ -1,54 +1,51 @@
-   #include<stdio.h>
+  #include <stdio.h>
 
 #define ROW 3
 #define COL 3
 
+
+/* Function declarations */
+void matrixInput(int mat[][COL]);
+void matrixPrint(int mat[][COL]);
+void matrixMultiply(int mat1[][COL], int mat2[][COL], int res[][COL]);
+
+
+
 int main()
 {
-    int First[3][3],Second[3][3],Result[3][3];
-    
-    int m1,n1,m2,n2,i,j;
-   
-
-    printf("Enter no of row and column for 1st matrix\n");
-    scanf("%d%d",&m1,&n1);
-
-    printf("Enter no of row and column for 2nd matrix\n");
-    scanf("%d%d",&m2,&n2);
-     
-     //check if multiplication is possible, 1st matrix rows must be equal to 
-     //Second matrix columns
-    if(n1==m2)
-    {
-        printf("Enter First matrix\n");
-        matrixInput(First);
-       
-        printf("\nEnter Second matrix\n");
-        matrixInput(Second);
-
-         
-        matrixMultiply(First,Second,Result);
-
-        printf("Product of entered matrices :-\n");
-
-        //print the resultant matrices
-        for(i=0;i<m1;i++)
-        {
-            for(j=0;j<n2;j++)
-                printf("%d\t",*(*(Result + i) + j));
-            printf("\n");
-        }
+    int mat1[ROW][COL];
+    int mat2[ROW][COL];
+    int product[ROW][COL];
 
 
-    }
-    else
-    {
-       printf("Sorry ! Multiplication is not possible");
-    }
+    /*
+     * Input elements in matrices.
+     */
+    printf("Enter elements in first matrix of size %dx%d\n", ROW, COL);
+    matrixInput(mat1);
+
+    printf("Enter elements in second matrix of size %dx%d\n", ROW, COL);
+    matrixInput(mat2);
+
+
+    // Call function to multiply both matrices
+    matrixMultiply(mat1, mat2, product);
+
+
+    // Print product of both matrix
+    printf("Product of both matrices is : \n");
+    matrixPrint(product);
+
     return 0;
 }
 
-//Get matrix data 
+
+
+/**
+ * Function to input elements in matrix from user.
+ *
+ * @mat     Two-dimensional array to store user input.
+ */
 void matrixInput(int mat[][COL])
 {
     int row, col;
@@ -63,7 +60,38 @@ void matrixInput(int mat[][COL])
 }
 
 
-//Function to multiply Matrices mat1 * mat2 = res
+
+
+/**
+ * Function to print elements in a two-dimensional array.
+ *
+ * @mat     Two-dimensional array to print.
+ */
+void matrixPrint(int mat[][COL])
+{
+    int row, col;
+
+    for (row = 0; row < ROW; row++)
+    {
+        for (col = 0; col < COL; col++)
+        {
+            printf("%d ", *(*(mat + row) + col));
+        }
+
+        printf("\n");
+    }
+}
+
+
+
+
+/**
+ * Function to multiply two matrices.
+ *
+ * @mat1    First matrix
+ * @mat2    Second matrix
+ * @res     Resultant matrix to store product of both matrices.
+ */
 void matrixMultiply(int mat1[][COL], int mat2[][COL], int res[][COL])
 {
     int row, col, i;
@@ -75,15 +103,24 @@ void matrixMultiply(int mat1[][COL], int mat2[][COL], int res[][COL])
         for (col = 0; col < COL; col++)
         {
             sum = 0;
-            // find the sum of product of each elements of row for first matirx 
-            // and columsn of second
+
+            /*
+             * Find sum of product of each elements of 
+             * rows of first matrix and columns of second 
+             * matrix.
+             */
             for (i = 0; i < COL; i++)
             {
                 sum += (*(*(mat1 + row) + i)) * (*(*(mat2 + i) + col));
             }
 
 
-           //save sum in resultant matrix 
+            /* 
+             * Store sum of product of row of first matrix 
+             * and column of second matrix to resultant matrix.
+             */
             *(*(res + row) + col) = sum;
         }
     }
+}
+
